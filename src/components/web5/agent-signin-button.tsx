@@ -9,13 +9,17 @@ import {
   DialogTrigger,
 } from '@/components/ui';
 import { useWeb5 } from '@/lib/web5/web5-provider';
+import { LogInIcon } from 'lucide-react';
 
 export const AgentSigninButton = () => {
   return (
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Sign in</Button>
+          <Button>
+            <LogInIcon className="h-[1.2rem] w-[1.2rem] mr-2" />
+            <span className="hidden md:block">Sign in</span>
+          </Button>
         </DialogTrigger>
         <AgentSigninDialogContent />
       </Dialog>

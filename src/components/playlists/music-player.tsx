@@ -50,7 +50,7 @@ export const MusicPlayer = ({ web5Playlist, connector }: MusicPlayerProps) => {
             key={`song-idx-${index}`}
             className="hover:bg-gray-100 dark:hover:bg-gray-900 p-4 rounded-sm"
           >
-            <div className="flex justify-between items-center gap-4">
+            <div className="md:flex justify-between items-center gap-4">
               <div className="text-2xl font-semibold w-8">{index + 1}</div>
               <div className="flex-1">
                 <p>{song.name}</p>
@@ -58,7 +58,7 @@ export const MusicPlayer = ({ web5Playlist, connector }: MusicPlayerProps) => {
                   {song.artists.map((a) => a.name).join(', ')}
                 </p>
               </div>
-              <div>
+              <div className="mt-4 md:mt-0">
                 {!hasConnector || isLoading ? (
                   ''
                 ) : playerSong ? (

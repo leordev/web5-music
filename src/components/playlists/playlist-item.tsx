@@ -45,9 +45,14 @@ export const PlaylistItem = (props: PlaylistItemProps) => {
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <Card>
-        <div className="flex justify-between items-center space-x-4 px-4">
-          <PlaylistTogglerButton onClick={handlePlaylistToggle} />
-          <div className="flex justify-start items-center flex-1">
+        <div className="md:flex justify-between items-center space-x-4 px-4">
+          <div className="hidden md:block">
+            <PlaylistTogglerButton onClick={handlePlaylistToggle} />
+          </div>
+          <div
+            className="flex justify-start items-center flex-1"
+            onClick={handlePlaylistToggle}
+          >
             <PlaylistImage image={playlist.image} />
             <PlaylistHeader playlist={playlist} />
           </div>

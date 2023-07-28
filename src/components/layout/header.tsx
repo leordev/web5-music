@@ -63,12 +63,25 @@ export const Header = () => {
           <li className="ml-6 hidden md:block">
             <ThemeToggler />
           </li>
-          {/* TODO: Mobile responsiveness?
-        <li className="ml-5 -mr-1 md:hidden">
-          <MobileNavigation />
-        </li> */}
         </ul>
       </nav>
+      <div className="md:hidden mt-10">
+        <NavigationMenu>
+          <NavigationMenuList>
+            {LINKS.map((link) => (
+              <NavigationMenuItem key={link.label}>
+                <NavigationMenuLink
+                  href={link.href}
+                  className={navigationMenuTriggerStyle()}
+                  active={link.href === location.pathname}
+                >
+                  {link.label}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
     </header>
   );
 };

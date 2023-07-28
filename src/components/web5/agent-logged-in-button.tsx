@@ -32,7 +32,7 @@ export const AgentLoggedInButton = ({
       <DropdownMenuTrigger asChild>
         <Button>
           <IdCardIcon className="h-[1.2rem] w-[1.2rem] mr-2" />
-          {agent.label}
+          <span className="hidden md:block">{agent.label}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
