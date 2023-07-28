@@ -13,7 +13,7 @@ describe('Renders main page correctly', async () => {
 
   it('Should render the index page correctly', async () => {
     const router = createMemoryRouter(routes);
-    await render(<RouterProvider router={router}></RouterProvider>);
+    render(<RouterProvider router={router}></RouterProvider>);
 
     const h1 = await screen.findByText('Web5 Music');
     expect(h1).toBeInTheDocument();
@@ -26,16 +26,16 @@ describe('Renders main page correctly', async () => {
 
   it('Should navigate across pages properly', async () => {
     const router = createMemoryRouter(routes);
-    await render(<RouterProvider router={router}></RouterProvider>);
+    render(<RouterProvider router={router}></RouterProvider>);
 
     const user = userEvent.setup();
 
-    await user.click(await screen.findByText(/about/i));
+    await user.click((await screen.findAllByText(/about/i))[0]);
     expect(
       await screen.findByText(/Web5 empowers you to maintain your data/i)
     ).toBeInTheDocument();
 
-    await user.click(await screen.findByText(/connected apps/i));
+    await user.click((await screen.findAllByText(/connected apps/i))[0]);
     expect(
       await screen.findByText(/list of apps that you can connect/i)
     ).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('Renders main page correctly', async () => {
   it('Handles an unknown url', async () => {
     const badRoute = '/some/bad/route';
     const router = createMemoryRouter(routes, { initialEntries: [badRoute] });
-    await render(<RouterProvider router={router}></RouterProvider>);
+    render(<RouterProvider router={router}></RouterProvider>);
 
     const text = await screen.findByText(/not found/i);
 

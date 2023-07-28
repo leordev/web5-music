@@ -178,9 +178,8 @@ export const authSpotify = () => {
     `&scope=${encodeURIComponent('playlist-read-private')}`;
 };
 
-export const loadSpotifyConnector = async () => {
+export const loadSpotifyConnector = () => {
   const { location } = window;
-  console.info('load spotify connector ', { location });
 
   let token = '';
 

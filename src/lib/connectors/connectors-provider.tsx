@@ -31,7 +31,7 @@ export const ConnectorsProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const loadCurrentConnectors = async () => {
       // Initialize Spotify Connector
-      const spotifyConnector = await loadSpotifyConnector();
+      const spotifyConnector = loadSpotifyConnector();
       if (spotifyConnector) {
         setSpotifyConnector(spotifyConnector);
       }
