@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
+import { BrowserRouter } from 'react-router-dom';
 
 import { Playlists } from './playlists';
 import { EXPECTED_WEB5_PARSED_PLAYLISTS_DATA } from '@/tests/spotify.fixtures';
@@ -7,7 +8,11 @@ import * as useWeb5Playlists from '@/lib/web5/use-web5-playlists';
 
 describe('Playlists', () => {
   it('should render the disconnected message', async () => {
-    render(<Playlists />);
+    render(
+      <BrowserRouter>
+        <Playlists />
+      </BrowserRouter>
+    );
 
     const message = screen.getByText(/you are not connected to any apps/i);
 
@@ -24,7 +29,11 @@ describe('Playlists', () => {
         } as any)
     );
 
-    render(<Playlists />);
+    render(
+      <BrowserRouter>
+        <Playlists />
+      </BrowserRouter>
+    );
 
     const items = await screen.findAllByTestId('playlist-item');
 

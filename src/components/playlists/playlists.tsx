@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useWeb5Playlists } from '@/lib/web5/use-web5-playlists';
 import { useConnectors } from '@/lib/connectors/connectors-provider';
@@ -30,35 +31,45 @@ export const Playlists = () => {
 
       setIsLoading(true);
 
-      const playlistsData = await playlistsStore.getPlaylists();
+      try {
+        const playlistsData = await playlistsStore.getPlaylists();
 
-      // Load Spotify playlists
-      let spotifyPlaylists: Playlist[] = [];
-      if (spotifyConnector) {
-        spotifyPlaylists = await spotifyConnector.getPlaylists();
-        for (const sp of spotifyPlaylists) {
-          // Lookup for the current web5 playlist to see if it was saved before
-          const web5Playlist = playlistsData.find(
-            (p) => p.externalAppsIds.spotify === sp.externalAppsIds.spotify
-          );
+        // Load Spotify playlists
+        let spotifyPlaylists: Playlist[] = [];
+        if (spotifyConnector) {
+          spotifyPlaylists = await spotifyConnector.getPlaylists();
+          for (const sp of spotifyPlaylists) {
+            // Lookup for the current web5 playlist to see if it was saved before
+            const web5Playlist = playlistsData.find(
+              (p) => p.externalAppsIds.spotify === sp.externalAppsIds.spotify
+            );
 
-          if (web5Playlist) {
-            sp.id = web5Playlist.id;
-          } else {
-            playlistsData.push(sp);
+            if (web5Playlist) {
+              sp.id = web5Playlist.id;
+            } else {
+              playlistsData.push(sp);
+            }
           }
         }
+
+        playlistsData.sort((a, b) => a.name.localeCompare(b.name));
+        setPlaylists(playlistsData);
+        setSpotifyPlaylists(spotifyPlaylists);
+      } catch (error) {
+        const errorMessage = 'Fail to load playlists data';
+        console.error(errorMessage, error);
+        toast({
+          title: errorMessage,
+          description:
+            'You probably need access to the beta test list of the Spotify Developer App',
+        });
       }
 
-      playlistsData.sort((a, b) => a.name.localeCompare(b.name));
-      setPlaylists(playlistsData);
-      setSpotifyPlaylists(spotifyPlaylists);
-      // setUnsyncedPlaylists(unsyncedPlaylists);
       setIsLoading(false);
     };
 
     initializePlaylists();
-  }, [spotifyConnector, playlistsStore]);
+  }, [spotifyConnector, playlistsStore, toast]);
 
   const onImportClick = async (playlistIndex: number) => {
     const playlist = playlists[playlistIndex];
@@ -132,7 +143,7 @@ export const Playlists = () => {
 
   return isLoading ? (
     <PlaylistsLoader />
-  ) : spotifyConnector || playlistsStore ? (
+  ) : playlists.length > 0 ? (
     <div className="mt-4 space-y-4">
       {playlists.map((playlist, index) => (
         <PlaylistCard
@@ -149,15 +160,19 @@ export const Playlists = () => {
           )}
         />
       ))}
-      {playlists.length === 0 && (
-        <div>Playlists were not found in your connected apps.</div>
-      )}
     </div>
+  ) : spotifyConnector ? (
+    <TypographyP>
+      You don&apos;t have any playlists in your DWN nor in your connected
+      apps.😞
+    </TypographyP>
   ) : (
     <TypographyP>
-      You are not connected to any apps and you don&apos;t have any playlists in
-      your DWN. Please go to the <a>Connected Apps</a> page to connect to an app
-      and be able to search songs and sync your playlists!
+      You are not connected to any apps. Please go to the{' '}
+      <Link to="/connected-apps" className="font-semibold underline">
+        Connected Apps
+      </Link>{' '}
+      page to connect to an app and be able to sync your playlists!
     </TypographyP>
   );
 };
