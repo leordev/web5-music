@@ -4,7 +4,7 @@ A fully decentralized music player for your life! Access now on: https://bucolic
 
 ![Web5 Music Demo](demo.gif)
 
-The idea of the Web5 Music App is to allow you to connect to your favorite music apps and import playlists to your Decentralized Web Node (DWNs), so you get the control of your data. The app will orchestrate the synchronization of these playlists and store the songs in the DWN.
+The idea of the Web5 Music App is to allow you to connect to your favorite music apps and import playlists to your Decentralized Web Node (DWNs), so you take control of your data. The app will orchestrate the synchronization of these playlists and store the songs in the DWN.
 
 In the above demo the user is executing this flow:
 
@@ -43,6 +43,13 @@ To run the unit tests, simply execute:
 ```sh
 pnpm test
 ```
+
+### Spotify App
+
+In order to connect to Spotify in your local environment, you need to create an app on Spotify [here](https://developer.spotify.com/).
+Just create an App and set the redirect URIs to: `http://localhost:5180/connected-apps/spotify`
+
+Then create your .env.local file (`cp .env .env.local`) and override the `VITE_SPOTIFY_CLIENT_ID` with yours.
 
 ## Build
 
