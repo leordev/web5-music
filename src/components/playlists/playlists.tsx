@@ -2,7 +2,7 @@ import { useWeb5Playlists } from '@/lib/web5/use-web5-playlists';
 import { useConnectors } from '@/lib/connectors/connectors-provider';
 import { TypographyP, useToast } from '@/components/ui';
 import { useEffect, useState } from 'react';
-import { PlaylistHydrated } from '@/lib/web5/interfaces';
+import { Playlist } from '@/lib/web5/interfaces';
 import { PlaylistItem } from './playlist-item';
 import { PlaylistsLoader } from './playlists-loader';
 import { ConnectorType } from '@/lib/connectors/interfaces';
@@ -13,12 +13,10 @@ export const Playlists = () => {
   const { toast } = useToast();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [playlists, setPlaylists] = useState<PlaylistHydrated[]>([]);
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
 
   // Connected Apps playlists
-  const [spotifyPlaylists, setSpotifyPlaylists] = useState<PlaylistHydrated[]>(
-    []
-  );
+  const [spotifyPlaylists, setSpotifyPlaylists] = useState<Playlist[]>([]);
 
   useEffect(() => {
     const initializePlaylists = async () => {
@@ -29,7 +27,7 @@ export const Playlists = () => {
       const playlistsData = await playlistsStore.getPlaylists();
 
       // Load Spotify playlists
-      let spotifyPlaylists: PlaylistHydrated[] = [];
+      let spotifyPlaylists: Playlist[] = [];
       if (spotifyConnector) {
         spotifyPlaylists = await spotifyConnector.getPlaylists();
         for (const sp of spotifyPlaylists) {
@@ -79,7 +77,7 @@ export const Playlists = () => {
 
   const onSyncClick = async (
     playlistIndex: number,
-    updatedPlaylist: PlaylistHydrated,
+    updatedPlaylist: Playlist,
     appToSync?: ConnectorType
   ) => {
     if (appToSync) {

@@ -1,12 +1,12 @@
 import { Web5 } from '@tbd54566975/web5';
-import { PlaylistHydrated } from './interfaces';
+import { Playlist } from './interfaces';
 
 const PLAYLISTS_SCHEMA = 'http://some-schema-registry.org/playlists';
 
 export class Web5PlaylistsStore {
   constructor(public web5: Web5) {}
 
-  getPlaylists = async (): Promise<PlaylistHydrated[]> => {
+  getPlaylists = async (): Promise<Playlist[]> => {
     const { records } = await this.web5.dwn.records.query({
       message: {
         filter: {
@@ -30,7 +30,7 @@ export class Web5PlaylistsStore {
     return playlists;
   };
 
-  createPlaylist = async (playlist: PlaylistHydrated) => {
+  createPlaylist = async (playlist: Playlist) => {
     // Create the record in the DWN
     const { record } = await this.web5.dwn.records.create({
       data: playlist,
@@ -49,7 +49,7 @@ export class Web5PlaylistsStore {
     return { ...playlist, id: record.id };
   };
 
-  updatePlaylist = async (playlist: PlaylistHydrated) => {
+  updatePlaylist = async (playlist: Playlist) => {
     if (!playlist.id) {
       throw new Error('Invalid DWN Record id to be updated');
     }

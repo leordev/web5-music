@@ -19,9 +19,9 @@ export const ConnectorSyncButton = React.forwardRef<
       size="sm"
       variant={'outline'}
       className="flex justify-between items-center"
-      disabled={status === 'offline'}
       ref={ref}
       {...props}
+      disabled={status === 'offline'}
     >
       <div>
         <connectorProps.icon className="mr-2 w-4 h-4 inline-block" />

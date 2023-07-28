@@ -2,29 +2,26 @@ export interface Playlist {
   id?: string;
   name: string;
   image?: string;
-//   songsIds: string[];
   externalAppsIds: ExternalAppsIds;
+  songs: Song[];
 }
 
 export interface Song {
-  id?: string;
   name: string;
   durationMs: number;
-//   artistsIds: string[];
-//   albumId: string;
   externalIds: ExternalIds;
   externalAppsIds: ExternalAppsIds;
+  album: Album;
+  artists: Artist[];
 }
 
 export interface Artist {
-  id?: string;
   name: string;
   image?: string;
   externalAppsIds: ExternalAppsIds;
 }
 
 export interface Album {
-  id?: string;
   name: string;
   releaseDate: string;
   releaseDatePrecision: 'year' | 'month' | 'day';
@@ -32,13 +29,8 @@ export interface Album {
   externalAppsIds: ExternalAppsIds;
 }
 
-export interface PlaylistHydrated extends Playlist {
-  songs: SongHydrated[];
-}
-
-export interface SongHydrated extends Song {
-  album: Album;
-  artists: Artist[];
+export interface SongWithAudioSrc extends Song {
+  audioSrc: string;
 }
 
 // Known External Ids

@@ -1,4 +1,4 @@
-import { Playlist, PlaylistHydrated, SongHydrated } from '../web5/interfaces';
+import { Playlist, SongWithAudioSrc } from '../web5/interfaces';
 
 export type ConnectorType =
   | 'spotify'
@@ -9,8 +9,11 @@ export type ConnectorType =
   | 'appleItunes';
 
 export interface Connector {
-  getPlaylists: () => Promise<PlaylistHydrated[]>;
-  searchSongs: (searchText: string) => Promise<SongHydrated[]>;
+  getPlaylists: () => Promise<Playlist[]>;
+  getPlaylistSongsWithAudio: (
+    playlist: Playlist
+  ) => Promise<SongWithAudioSrc[]>;
+  searchSongs: (searchText: string) => Promise<SongWithAudioSrc[]>;
   updatePlaylist: (playlist: Playlist) => Promise<void>;
   disconnect: () => Promise<void>;
 }

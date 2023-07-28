@@ -6,18 +6,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui';
-import { PlaylistHydrated } from '@/lib/web5/interfaces';
+import { Playlist } from '@/lib/web5/interfaces';
 import { ConnectorType } from '@/lib/connectors/interfaces';
 import { ConnectorSyncButton } from '@/components/connectors/connector-sync-button';
 
 interface SyncMenuProps {
-  playlist: PlaylistHydrated;
+  playlist: Playlist;
   onSyncClick: (
-    updatedPlaylist: PlaylistHydrated,
+    updatedPlaylist: Playlist,
     appToSync?: ConnectorType
   ) => Promise<void>;
   connector: ConnectorType;
-  connectedAppPlaylist?: PlaylistHydrated;
+  connectedAppPlaylist?: Playlist;
 }
 
 export const SyncMenu = ({
@@ -63,11 +63,11 @@ const SyncedDisplayMenu = () => (
 
 interface SyncingActionsMenuProps {
   onSyncClick: (
-    updatedPlaylist: PlaylistHydrated,
+    updatedPlaylist: Playlist,
     appToSync?: ConnectorType
   ) => Promise<void>;
   connector: ConnectorType;
-  connectedAppPlaylist: PlaylistHydrated;
+  connectedAppPlaylist: Playlist;
 }
 const SyncingActionsMenu = ({
   onSyncClick,

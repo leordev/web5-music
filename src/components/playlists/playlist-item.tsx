@@ -12,18 +12,20 @@ import {
   CollapsibleContent,
 } from '@/components/ui';
 
-import { PlaylistHydrated } from '@/lib/web5/interfaces';
+import { Playlist } from '@/lib/web5/interfaces';
 import { ConnectorType } from '@/lib/connectors/interfaces';
 import { SyncMenu } from './sync-menu';
 import { NewPlaylistMenu } from './new-playlist-menu';
+import { MusicPlayer } from './music-player';
+import { useConnectors } from '@/lib/connectors/connectors-provider';
 
 interface PlaylistItemProps {
-  playlist: PlaylistHydrated;
-  spotifyPlaylist?: PlaylistHydrated;
+  playlist: Playlist;
+  spotifyPlaylist?: Playlist;
   onImportClick: () => Promise<void>;
   onRemoveClick: () => Promise<void>;
   onSyncClick: (
-    updatedPlaylist: PlaylistHydrated,
+    updatedPlaylist: Playlist,
     appToSync?: ConnectorType
   ) => Promise<void>;
 }
@@ -31,6 +33,10 @@ interface PlaylistItemProps {
 export const PlaylistItem = (props: PlaylistItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { playlist } = props;
+
+  // TODO: Ideally when other connected apps are implemented we should have a settings
+  // where the user can select the default App to use for the Music player
+  const { spotifyConnector: playerConnector } = useConnectors();
 
   const handlePlaylistToggle = () => {
     setIsOpen(!isOpen);
@@ -48,7 +54,9 @@ export const PlaylistItem = (props: PlaylistItemProps) => {
           <PlaylistMenu {...props} />
         </div>
         <CardContent>
-          <CollapsibleContent>Playlist songs!</CollapsibleContent>
+          <CollapsibleContent>
+            <MusicPlayer web5Playlist={playlist} connector={playerConnector} />
+          </CollapsibleContent>
         </CardContent>
       </Card>
     </Collapsible>
@@ -98,7 +106,7 @@ const PlaylistTogglerButton = ({ onClick }: { onClick: () => void }) => (
 const PlaylistImage = ({ image }: { image?: string }) =>
   image ? <img src={image} className="w-14 h-14" /> : <></>;
 
-const PlaylistHeader = ({ playlist }: { playlist: PlaylistHydrated }) => (
+const PlaylistHeader = ({ playlist }: { playlist: Playlist }) => (
   <CardHeader>
     <CardTitle>{playlist.name}</CardTitle>
     <CardDescription>{playlist.songs.length} songs</CardDescription>

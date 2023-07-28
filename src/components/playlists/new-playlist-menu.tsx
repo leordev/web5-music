@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 
 import { getConnectedApps } from '@/lib/web5/helpers';
-import { PlaylistHydrated } from '@/lib/web5/interfaces';
+import { Playlist } from '@/lib/web5/interfaces';
 import { CONNECTORS_AESTHETICS } from '@/components/connectors/constants';
 import { Button } from '@/components/ui';
 
 interface NewPlaylistMenuProps {
-  playlist: PlaylistHydrated;
+  playlist: Playlist;
   onImportClick: () => Promise<void>;
 }
 

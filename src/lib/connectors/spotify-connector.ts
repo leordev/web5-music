@@ -1,10 +1,4 @@
-import {
-  Album,
-  Artist,
-  Playlist,
-  PlaylistHydrated,
-  SongHydrated,
-} from '../web5/interfaces';
+import { Album, Artist, Playlist, SongWithAudioSrc } from '../web5/interfaces';
 import { Connector } from './interfaces';
 
 const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -30,10 +24,14 @@ class SpotifyConnector implements Connector {
     const rawPlaylists = await this.apiFetch(`/v1/me/playlists`);
 
     const playlists = await Promise.all(
-      rawPlaylists.items.map(this.loadPlaylistData)
+      rawPlaylists.items.map(({ id }: any) => this.loadPlaylistData(id))
     );
 
-    return playlists;
+    const playlistsWithoutAudioSrc = playlists.map(
+      this.removeAudioSrcFromPlaylistSongs
+    );
+
+    return playlistsWithoutAudioSrc;
   };
 
   searchSongs = async (searchKey: string) => {
@@ -59,28 +57,42 @@ class SpotifyConnector implements Connector {
     }
   };
 
-  loadPlaylistData = async (rawPlaylist: any) => {
-    const spotifyId = rawPlaylist.id;
-    const name = rawPlaylist.name;
-    const image = rawPlaylist.images?.[0]?.url;
+  getPlaylistSongsWithAudio = async (
+    playlist: Playlist
+  ): Promise<SongWithAudioSrc[]> => {
+    const spotifyId = playlist.externalAppsIds.spotify;
+    if (!spotifyId) {
+      throw new Error(
+        'Unable to locate Spotify id on External Apps Ids to load the Songs'
+      );
+    }
 
-    const fullPlaylist = await this.apiFetch(`/v1/playlists/${spotifyId}`);
+    const playlistWithAudioSrc = await this.loadPlaylistData(spotifyId);
+    return playlistWithAudioSrc.songs;
+  };
+
+  loadPlaylistData = async (playlistId: string) => {
+    const fullPlaylist = await this.apiFetch(`/v1/playlists/${playlistId}`);
+
+    const name = fullPlaylist.name;
+    const image = fullPlaylist.images?.[0]?.url;
+
     const { tracks } = fullPlaylist;
 
     // TODO: handle tracks pagination
     const songs = tracks.items.map(this.parseTrack);
 
-    const playlist: PlaylistHydrated = {
+    const playlist = {
       name,
       image,
-      externalAppsIds: { spotify: spotifyId },
+      externalAppsIds: { spotify: playlistId },
       songs,
     };
 
     return playlist;
   };
 
-  parseTrack = (playlistItem: any): SongHydrated => {
+  parseTrack = (playlistItem: any): SongWithAudioSrc => {
     const { track } = playlistItem;
 
     const name = track.name;
@@ -91,13 +103,14 @@ class SpotifyConnector implements Connector {
     const album = this.parseAlbum(track.album);
     const artists = track.artists.map(this.parseArtist);
 
-    const song: SongHydrated = {
+    const song: SongWithAudioSrc = {
       name,
       durationMs,
       externalIds,
       externalAppsIds: { spotify: songSpotifyId },
       album,
       artists,
+      audioSrc: track.preview_url,
     };
 
     return song;
@@ -129,6 +142,15 @@ class SpotifyConnector implements Connector {
       image,
       externalAppsIds,
     };
+  };
+
+  removeAudioSrcFromPlaylistSongs = (
+    playlist: Omit<Playlist, 'songs'> & { songs: SongWithAudioSrc[] }
+  ) => {
+    // Destructs audioSrc from song object
+    const songs = playlist.songs.map(({ audioSrc, ...song }) => song);
+
+    return { ...playlist, songs };
   };
 
   apiFetch = async (endpoint: string, requestOptions?: RequestInit) => {
