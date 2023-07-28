@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
+
 import { useWeb5Playlists } from '@/lib/web5/use-web5-playlists';
 import { useConnectors } from '@/lib/connectors/connectors-provider';
 import { TypographyP, useToast } from '@/components/ui';
-import { useEffect, useState } from 'react';
 import { Playlist } from '@/lib/web5/interfaces';
+import { ConnectorType } from '@/lib/connectors/interfaces';
 import { PlaylistItem } from './playlist-item';
 import { PlaylistsLoader } from './playlists-loader';
-import { ConnectorType } from '@/lib/connectors/interfaces';
 
 export const Playlists = () => {
   const { spotifyConnector } = useConnectors();

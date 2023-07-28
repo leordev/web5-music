@@ -13,7 +13,7 @@ pnpm install
 pnpm dev
 ```
 
-The app will be served on http://localhost:5180!
+The app will be served on http://localhost:5180
 
 To run the unit tests, simply run:
 
@@ -32,6 +32,7 @@ pnpm build
 ## Future Improvements
 
 - [ ] Handle Spotify token refresh: at the moment we are shamelessly redirecting to the `/connected-apps` page when we detect a 401 (Unauthorized) response from the API.
+- [ ] Figure out a better mocking mechanism for the Web5 object with vitest
 - [ ] Develop a Playlist "Management" functionality where the user can search for songs and edit playlists inside the Web5 Music App and then import these playlists to the connected apps.
 - [ ] Thumbnails are being referenced from Spotify, ideally we should persist in our DWN.
 - [ ] Implement more connected apps:

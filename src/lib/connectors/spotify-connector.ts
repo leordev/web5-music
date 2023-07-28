@@ -6,10 +6,10 @@ const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
 const AUTH_ENDPOINT = import.meta.env.VITE_SPOTIFY_AUTH_ENDPOINT;
 const RESPONSE_TYPE = import.meta.env.VITE_SPOTIFY_RESPONSE_TYPE;
 
-const SPOTIFY_CONNECTOR_TOKEN_KEY = 'spotify-connector-token';
+export const SPOTIFY_CONNECTOR_TOKEN_KEY = 'spotify-connector-token';
 const SPOTIFY_API_BASE_URL = 'https://api.spotify.com';
 
-class SpotifyConnector implements Connector {
+export class SpotifyConnector implements Connector {
   constructor(public authToken: string) {}
 
   disconnect = async () => {
@@ -34,28 +34,12 @@ class SpotifyConnector implements Connector {
     return playlistsWithoutAudioSrc;
   };
 
-  searchSongs = async (searchKey: string) => {
-    const params = new URLSearchParams({
-      q: searchKey,
-      type: 'track',
-    });
-
-    const data = await this.apiFetch(`/v1/search?${params}`);
-
-    console.info({ data });
-
+  // TODO: both searchSongs and updatePlaylist are to be implemented in the
+  // future functionalities of managing playlists within the Web5 Music App
+  searchSongs = async (_searchKey: string) => {
     return [];
   };
-
-  updatePlaylist = async (playlist: Playlist) => {
-    const id = playlist.externalAppsIds.spotify;
-
-    if (id) {
-      // update
-    } else {
-      // create new playlist
-    }
-  };
+  updatePlaylist = async (_playlist: Playlist) => {};
 
   getPlaylistSongsWithAudio = async (
     playlist: Playlist
@@ -92,7 +76,7 @@ class SpotifyConnector implements Connector {
     return playlist;
   };
 
-  parseTrack = (playlistItem: any): SongWithAudioSrc => {
+  private parseTrack = (playlistItem: any): SongWithAudioSrc => {
     const { track } = playlistItem;
 
     const name = track.name;
@@ -116,7 +100,7 @@ class SpotifyConnector implements Connector {
     return song;
   };
 
-  parseAlbum = (album: any): Album => {
+  private parseAlbum = (album: any): Album => {
     const name = album.name;
     const externalIds = album.external_ids;
     const releaseDate = album.release_date;
@@ -132,7 +116,7 @@ class SpotifyConnector implements Connector {
     };
   };
 
-  parseArtist = (artist: any): Artist => {
+  private parseArtist = (artist: any): Artist => {
     const name = artist.name;
     const image = artist.images?.[0]?.url;
     const externalAppsIds = { spotify: artist.id };
@@ -144,7 +128,7 @@ class SpotifyConnector implements Connector {
     };
   };
 
-  removeAudioSrcFromPlaylistSongs = (
+  private removeAudioSrcFromPlaylistSongs = (
     playlist: Omit<Playlist, 'songs'> & { songs: SongWithAudioSrc[] }
   ) => {
     // Destructs audioSrc from song object
@@ -171,7 +155,7 @@ class SpotifyConnector implements Connector {
 }
 
 export const authSpotify = () => {
-  document.location.href =
+  window.location.href =
     `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}` +
     `&redirect_uri=${REDIRECT_URI}` +
     `&response_type=${RESPONSE_TYPE}` +

@@ -43,7 +43,11 @@ export const PlaylistItem = (props: PlaylistItemProps) => {
   };
 
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+    <Collapsible
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      data-testid="playlist-item"
+    >
       <Card>
         <div className="md:flex justify-between items-center space-x-4 px-4">
           <div className="hidden md:block">

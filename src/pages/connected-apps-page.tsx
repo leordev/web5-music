@@ -7,8 +7,6 @@ export const ConnectedAppsPage = () => {
   const { spotifyConnect, spotifyDisconnect, spotifyConnector } =
     useConnectors();
 
-  console.info(spotifyConnector);
-
   return (
     <>
       <TypographyH2>Connected Apps</TypographyH2>

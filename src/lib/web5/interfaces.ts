@@ -25,7 +25,7 @@ export interface Album {
   name: string;
   releaseDate: string;
   releaseDatePrecision: 'year' | 'month' | 'day';
-  externalIds: ExternalIds;
+  externalIds?: ExternalIds;
   externalAppsIds: ExternalAppsIds;
 }
 
