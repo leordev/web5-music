@@ -10,14 +10,7 @@ import {
 import { IconType } from 'react-icons';
 
 import { Button } from '@/components/ui';
-
-export type ConnectorType =
-  | 'spotify'
-  | 'youtube'
-  | 'tidal'
-  | 'pandora'
-  | 'amazon-music'
-  | 'apple-itunes';
+import { ConnectorType } from '@/lib/connectors/interfaces';
 
 interface ConnectorIconProps {
   icon: IconType;
@@ -46,12 +39,12 @@ const CONNECTORS: { [Key in ConnectorType]: ConnectorIconProps } = {
     connectedIconColor: 'text-pink-600',
     label: 'Pandora',
   },
-  'amazon-music': {
+  amazonMusic: {
     icon: SiAmazon,
     connectedIconColor: 'text-indigo-500',
     label: 'Amazon Music',
   },
-  'apple-itunes': {
+  appleItunes: {
     icon: SiItunes,
     connectedIconColor: 'text-gray-700 dark:text-white',
     label: 'Apple iTunes',

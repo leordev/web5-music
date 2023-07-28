@@ -5,7 +5,7 @@ import { AboutPage } from '@/pages/about-page';
 import { ConnectedAppsPage } from '@/pages/connected-apps-page';
 import { ErrorPage } from '@/pages/error-page';
 import { Layout } from '@/components/layout/layout';
-import { Web5Provider } from '@/lib/web5-provider';
+import { Web5Provider } from '@/lib/web5/web5-provider';
 import { Toaster } from './components/ui';
 import { ConnectorsProvider } from './lib/connectors/connectors-provider';
 

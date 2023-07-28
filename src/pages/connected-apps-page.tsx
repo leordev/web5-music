@@ -1,6 +1,6 @@
 import { TypographyH2, TypographyP } from '@/components/ui';
 import { ConnectButton } from '@/components/connectors/connect-button';
-import { Web5AuthenticationGuard } from '@/lib/web5-provider';
+import { Web5AuthenticationGuard } from '@/lib/web5/web5-provider';
 import { useConnectors } from '@/lib/connectors/connectors-provider';
 
 export const ConnectedAppsPage = () => {
@@ -29,10 +29,10 @@ export const ConnectedAppsPage = () => {
             <ConnectButton type="tidal" comingSoon />
           </div>
           <div className="flex flex-col items-center">
-            <ConnectButton type="amazon-music" comingSoon />
+            <ConnectButton type="amazonMusic" comingSoon />
           </div>
           <div className="flex flex-col items-center">
-            <ConnectButton type="apple-itunes" comingSoon />
+            <ConnectButton type="appleItunes" comingSoon />
           </div>
           <div className="flex flex-col items-center">
             <ConnectButton type="pandora" comingSoon />

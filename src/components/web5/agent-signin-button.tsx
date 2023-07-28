@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui';
-import { useWeb5 } from '@/lib/web5-provider';
+import { useWeb5 } from '@/lib/web5/web5-provider';
 
 export const AgentSigninButton = () => {
   return (

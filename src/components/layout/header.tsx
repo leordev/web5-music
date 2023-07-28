@@ -48,7 +48,7 @@ export const Header = () => {
                     <NavigationMenuLink
                       href={link.href}
                       className={navigationMenuTriggerStyle()}
-                      active={link.href.startsWith(location.pathname)}
+                      active={link.href === location.pathname}
                     >
                       {link.label}
                     </NavigationMenuLink>

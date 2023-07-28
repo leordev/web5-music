@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
   useToast,
 } from '@/components/ui';
-import { Agent } from '@/lib/web5-provider';
+import { Agent } from '@/lib/web5/web5-provider';
 
 import { IdCardIcon, CopyIcon } from '@radix-ui/react-icons';
 

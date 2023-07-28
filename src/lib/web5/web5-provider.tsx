@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 import { Web5 } from '@tbd54566975/web5';
-import { wait } from './timers';
+import { wait } from '../timers';
 
 type AgentType = 'in-app' | 'external';
 

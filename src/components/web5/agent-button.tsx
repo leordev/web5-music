@@ -1,4 +1,4 @@
-import { useWeb5 } from '@/lib/web5-provider';
+import { useWeb5 } from '@/lib/web5/web5-provider';
 
 import { AgentLoggedInButton } from './agent-logged-in-button';
 import { AgentSigninButton } from './agent-signin-button';

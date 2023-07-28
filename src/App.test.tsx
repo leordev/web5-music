@@ -18,10 +18,10 @@ describe('Renders main page correctly', async () => {
     const router = createMemoryRouter(routes);
     await render(<RouterProvider router={router}></RouterProvider>);
 
-    const h1 = await screen.queryByText('Web5 Music');
+    const h1 = await screen.findByText('Web5 Music');
     expect(h1).toBeInTheDocument();
 
-    const p = await screen.getByText(/menu to add new playlist/i);
+    const p = await screen.findByText(/You need to sign in with your Web5 agent/i);
     expect(p).toBeInTheDocument();
   });
 
@@ -31,12 +31,12 @@ describe('Renders main page correctly', async () => {
 
     const user = userEvent.setup();
 
-    await user.click(screen.getByText(/about/i));
-    expect(screen.getByText(/you are on the about page/i)).toBeInTheDocument();
+    await user.click(await screen.findByText(/about/i));
+    expect(await screen.findByText(/Web5 empowers you to maintain your data/i)).toBeInTheDocument();
 
-    await user.click(screen.getByText(/connected apps/i));
+    await user.click(await screen.findByText(/connected apps/i));
     expect(
-      screen.getByText(/list of apps that you can connect/i)
+      await screen.findByText(/list of apps that you can connect/i)
     ).toBeInTheDocument();
   });
 
@@ -44,7 +44,7 @@ describe('Renders main page correctly', async () => {
     const router = createMemoryRouter(routes);
     await render(<RouterProvider router={router}></RouterProvider>);
 
-    const button = await screen.queryByText('count is 0');
+    const button = await screen.findByText('count is 0');
 
     expect(button).toBeInTheDocument();
   });
@@ -53,7 +53,7 @@ describe('Renders main page correctly', async () => {
     const router = createMemoryRouter(routes);
     await render(<RouterProvider router={router}></RouterProvider>);
 
-    const button = await screen.queryByText('count is 0');
+    const button = await screen.findByText('count is 0');
     expect(button).toBeInTheDocument();
 
     const user = userEvent.setup();
@@ -69,7 +69,7 @@ describe('Renders main page correctly', async () => {
     const router = createMemoryRouter(routes, { initialEntries: [badRoute] });
     await render(<RouterProvider router={router}></RouterProvider>);
 
-    const text = await screen.getByText(/not found/i);
+    const text = await screen.findByText(/not found/i);
 
     expect(text).toBeInTheDocument();
   });
