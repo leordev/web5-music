@@ -1,52 +1,56 @@
 import { useWeb5Playlists } from '@/lib/web5/use-web5-playlists';
 import { useConnectors } from '@/lib/connectors/connectors-provider';
-import { TypographyP, useToast } from '../ui';
+import { TypographyP, useToast } from '@/components/ui';
 import { useEffect, useState } from 'react';
 import { PlaylistHydrated } from '@/lib/web5/interfaces';
 import { PlaylistItem } from './playlist-item';
+import { PlaylistsLoader } from './playlists-loader';
+import { ConnectorType } from '@/lib/connectors/interfaces';
 
 export const Playlists = () => {
   const { spotifyConnector } = useConnectors();
   const { playlistsStore } = useWeb5Playlists();
   const { toast } = useToast();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [playlists, setPlaylists] = useState<PlaylistHydrated[]>([]);
-  const [unsyncedPlaylists, setUnsyncedPlaylists] = useState<
-    PlaylistHydrated[]
-  >([]);
+
+  // Connected Apps playlists
+  const [spotifyPlaylists, setSpotifyPlaylists] = useState<PlaylistHydrated[]>(
+    []
+  );
 
   useEffect(() => {
     const initializePlaylists = async () => {
       if (!playlistsStore) return;
 
+      setIsLoading(true);
+
       const playlistsData = await playlistsStore.getPlaylists();
 
-      const unsyncedPlaylists = [];
-
-      // Load Spotify playlists and grab the unsync ones
+      // Load Spotify playlists
+      let spotifyPlaylists: PlaylistHydrated[] = [];
       if (spotifyConnector) {
-        const spotifyPlaylists = await spotifyConnector.getPlaylists();
+        spotifyPlaylists = await spotifyConnector.getPlaylists();
         for (const sp of spotifyPlaylists) {
           // Lookup for the current web5 playlist to see if it was saved before
           const web5Playlist = playlistsData.find(
             (p) => p.externalAppsIds.spotify === sp.externalAppsIds.spotify
           );
 
-          // Unknown playlists are just appended without a web5 id to give us an opportunity to import it
-          if (!web5Playlist) {
+          if (web5Playlist) {
+            sp.id = web5Playlist.id;
+          } else {
             playlistsData.push(sp);
-          } else if (
-            // If the playlist loaded from the external app is different than the Web5 one it's unsynced
-            JSON.stringify(web5Playlist.songs) !== JSON.stringify(sp.songs)
-          ) {
-            unsyncedPlaylists.push({ ...sp, id: web5Playlist.id });
           }
         }
       }
 
       playlistsData.sort((a, b) => a.name.localeCompare(b.name));
       setPlaylists(playlistsData);
-      setUnsyncedPlaylists(unsyncedPlaylists);
+      setSpotifyPlaylists(spotifyPlaylists);
+      // setUnsyncedPlaylists(unsyncedPlaylists);
+      setIsLoading(false);
     };
 
     initializePlaylists();
@@ -60,39 +64,46 @@ export const Playlists = () => {
       return;
     }
 
-    const createdPlaylist = await playlistsStore.createPlaylist(playlist);
+    try {
+      const createdPlaylist = await playlistsStore.createPlaylist(playlist);
 
-    const updatedPlaylists = [...playlists];
-    updatedPlaylists[playlistIndex] = createdPlaylist;
-    setPlaylists(updatedPlaylists);
+      const updatedPlaylists = [...playlists];
+      updatedPlaylists[playlistIndex] = createdPlaylist;
+      setPlaylists(updatedPlaylists);
+    } catch (error) {
+      const errorMessage = 'Fail to create web5 records. Please try again.';
+      console.error(errorMessage, error);
+      toast({ title: errorMessage });
+    }
   };
 
-  const onSyncClick = async (playlistIndex: number) => {
-    const playlist = playlists[playlistIndex];
+  const onSyncClick = async (
+    playlistIndex: number,
+    updatedPlaylist: PlaylistHydrated,
+    appToSync?: ConnectorType
+  ) => {
+    if (appToSync) {
+      toast({ title: 'Synchronization to Connected App not supported yet.' });
+      return;
+    }
 
+    const playlist = playlists[playlistIndex];
     if (!playlist?.id || !playlistsStore) {
       toast({ title: 'Unable to update Playlist without an ID' });
       return;
     }
 
-    const unsyncedPlaylist = unsyncedPlaylists.find(
-      (unsyncedItem) => unsyncedItem.id === playlist.id
-    );
-    if (!unsyncedPlaylist) {
-      toast({ title: 'Unable to sync Playlist' });
-      return;
+    try {
+      await playlistsStore.updatePlaylist(updatedPlaylist);
+
+      const updatedPlaylists = [...playlists];
+      updatedPlaylists[playlistIndex] = updatedPlaylist;
+      setPlaylists(updatedPlaylists);
+    } catch (error) {
+      const errorMessage = 'Fail to update web5 records. Please try again.';
+      console.error(errorMessage, error);
+      toast({ title: errorMessage });
     }
-
-    await playlistsStore.updatePlaylist(unsyncedPlaylist);
-
-    const updatedPlaylists = [...playlists];
-    updatedPlaylists[playlistIndex] = unsyncedPlaylist;
-    setPlaylists(updatedPlaylists);
-
-    const updatedUnsyncedPlaylists = unsyncedPlaylists.filter(
-      (up) => up.id !== playlist.id
-    );
-    setUnsyncedPlaylists(updatedUnsyncedPlaylists);
   };
 
   const onRemoveClick = async (playlistIndex: number) => {
@@ -103,31 +114,41 @@ export const Playlists = () => {
       return;
     }
 
-    await playlistsStore.removePlaylist(playlist.id);
-    const updatedPlaylists = [...playlists];
-    updatedPlaylists[playlistIndex].id = undefined;
-    setPlaylists(updatedPlaylists);
+    try {
+      await playlistsStore.removePlaylist(playlist.id);
+      const updatedPlaylists = [...playlists];
+      updatedPlaylists[playlistIndex].id = undefined;
+      setPlaylists(updatedPlaylists);
+    } catch (error) {
+      const errorMessage = 'Fail to remove web5 records. Please try again.';
+      console.error(errorMessage, error);
+      toast({ title: errorMessage });
+    }
   };
 
-  return spotifyConnector || playlistsStore ? (
-    <ul>
+  return isLoading ? (
+    <PlaylistsLoader />
+  ) : spotifyConnector || playlistsStore ? (
+    <div className="mt-4 space-y-4">
       {playlists.map((playlist, index) => (
         <PlaylistItem
           key={`playlist-idx-${index}`}
           playlist={playlist}
           onImportClick={() => onImportClick(index)}
           onRemoveClick={() => onRemoveClick(index)}
-          onSyncClick={() => onSyncClick(index)}
-          isSynced={Boolean(
-            !unsyncedPlaylists.find(
-              (unsynced) =>
-                unsynced.externalAppsIds.spotify ===
-                playlist.externalAppsIds.spotify
-            )
+          onSyncClick={(updatedPlaylist, appToSync) =>
+            onSyncClick(index, updatedPlaylist, appToSync)
+          }
+          spotifyPlaylist={spotifyPlaylists.find(
+            (p) =>
+              p.externalAppsIds.spotify === playlist.externalAppsIds.spotify
           )}
         />
       ))}
-    </ul>
+      {playlists.length === 0 && (
+        <div>Playlists were not found in your connected apps.</div>
+      )}
+    </div>
   ) : (
     <TypographyP>
       You are not connected to any apps and you don&apos;t have any playlists in

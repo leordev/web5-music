@@ -62,7 +62,7 @@ class SpotifyConnector implements Connector {
   loadPlaylistData = async (rawPlaylist: any) => {
     const spotifyId = rawPlaylist.id;
     const name = rawPlaylist.name;
-    const image = rawPlaylist.images?.[0];
+    const image = rawPlaylist.images?.[0]?.url;
 
     const fullPlaylist = await this.apiFetch(`/v1/playlists/${spotifyId}`);
     const { tracks } = fullPlaylist;
