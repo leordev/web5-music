@@ -11,6 +11,11 @@ import {
 import { useWeb5 } from '@/lib/web5/web5-provider';
 import { LogInIcon } from 'lucide-react';
 
+/**
+ * The Web5 signin button pops up a dialog that allow the user
+ * to select between login with the in-app agent or using an
+ * external web5 agent app (to be implemented).
+ */
 export const AgentSigninButton = () => {
   return (
     <>

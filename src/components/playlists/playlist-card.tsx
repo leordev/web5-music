@@ -30,7 +30,11 @@ interface PlaylistItemProps {
   ) => Promise<void>;
 }
 
-export const PlaylistItem = (props: PlaylistItemProps) => {
+/**
+ * Playlist main card: renders all the playlist information, syncing status, import &
+ * syncing buttons, and displays the music player when expanded
+ */
+export const PlaylistCard = (props: PlaylistItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { playlist } = props;
 

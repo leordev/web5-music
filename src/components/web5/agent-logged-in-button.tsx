@@ -16,6 +16,11 @@ interface AgentLoggedInButtonProps {
   disconnect: () => unknown;
 }
 
+/**
+ * Displays a Web5 Agent logged in button which is a dropdown menu
+ * which contains the information about the logged in agent, such
+ * as the DID data and the option to logout/switch agents.
+ */
 export const AgentLoggedInButton = ({
   agent,
   disconnect,

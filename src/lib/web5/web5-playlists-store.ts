@@ -3,6 +3,11 @@ import { Playlist } from './interfaces';
 
 const PLAYLISTS_SCHEMA = 'http://some-schema-registry.org/playlists';
 
+/**
+ * Web5 Playlists Store - Wrapper around the Web5 DWN Records, think of
+ * it as a Data Repository. By having this abstraction we can ensure more
+ * safety and DevX to avoid confusion when CRUDing the data.
+ */
 export class Web5PlaylistsStore {
   constructor(public web5: Web5) {}
 

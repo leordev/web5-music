@@ -35,7 +35,7 @@ describe('Web5Provider', () => {
     expect(agent.textContent).toBe('not-connected');
   });
 
-  // TODO: figure out mocking
+  // TODO: figure out a mocking for Web5
   //   it('connects to agent', async () => {
   //     const { getByTestId } = render(<App />);
 

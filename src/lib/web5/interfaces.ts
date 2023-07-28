@@ -1,3 +1,7 @@
+/**
+ * Main Web5 Playlist Object, it contains the full nested structure required
+ * to persist the users songs in their DWNs.
+ */
 export interface Playlist {
   id?: string;
   name: string;
@@ -33,7 +37,10 @@ export interface SongWithAudioSrc extends Song {
   audioSrc: string;
 }
 
-// Known External Ids
+/**
+ * Known external ids in the Music industry, hopefully
+ * this is how we can sync the connected apps playlists
+ */
 export interface ExternalIds {
   // International Standard Recording Code
   isrc?: string;

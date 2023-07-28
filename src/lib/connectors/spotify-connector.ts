@@ -9,6 +9,9 @@ const RESPONSE_TYPE = import.meta.env.VITE_SPOTIFY_RESPONSE_TYPE;
 export const SPOTIFY_CONNECTOR_TOKEN_KEY = 'spotify-connector-token';
 const SPOTIFY_API_BASE_URL = 'https://api.spotify.com';
 
+/**
+ * Spotify implementation of @type {Connector}
+ */
 export class SpotifyConnector implements Connector {
   constructor(public authToken: string) {}
 

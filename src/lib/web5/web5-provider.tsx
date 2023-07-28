@@ -29,6 +29,9 @@ interface Web5ContextType {
   disconnect: () => void;
 }
 
+/**
+ * Global React context, provider and sugar hooks to manage the Web5 Agent in the whole app
+ */
 export const Web5Context = createContext<Web5ContextType>(
   {} as Web5ContextType
 );

@@ -7,6 +7,10 @@ interface MusicPlayerProps {
   connector?: Connector;
 }
 
+/**
+ * Music player container: displays all the songs and the audio player control if
+ * connected app is available and the song has a valid audio source URL.
+ */
 export const MusicPlayer = ({ web5Playlist, connector }: MusicPlayerProps) => {
   const [playlistSongs, setPlaylistSongs] = useState<SongWithAudioSrc[]>([]);
   const [isLoading, setIsLoading] = useState(false);

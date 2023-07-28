@@ -19,6 +19,9 @@ interface ConnectorsContextType {
   // Future connectors integrations go here ...
 }
 
+/**
+ * Global React context, provider and sugar hooks to manage the Connectors in the whole app
+ */
 export const ConnectorsContext = createContext<ConnectorsContextType>(
   {} as ConnectorsContextType
 );

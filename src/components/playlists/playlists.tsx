@@ -5,9 +5,14 @@ import { useConnectors } from '@/lib/connectors/connectors-provider';
 import { TypographyP, useToast } from '@/components/ui';
 import { Playlist } from '@/lib/web5/interfaces';
 import { ConnectorType } from '@/lib/connectors/interfaces';
-import { PlaylistItem } from './playlist-item';
+import { PlaylistCard } from './playlist-card';
 import { PlaylistsLoader } from './playlists-loader';
 
+/**
+ * Playlists: main component of the app. It loads the stored playlists
+ * in Web5 and also the existing playlists from the connected apps (Spotify,
+ * Tidal, Youtube etc.) and lists them using @type {PlaylistCard}
+ */
 export const Playlists = () => {
   const { spotifyConnector } = useConnectors();
   const { playlistsStore } = useWeb5Playlists();
@@ -130,7 +135,7 @@ export const Playlists = () => {
   ) : spotifyConnector || playlistsStore ? (
     <div className="mt-4 space-y-4">
       {playlists.map((playlist, index) => (
-        <PlaylistItem
+        <PlaylistCard
           key={`playlist-idx-${index}`}
           playlist={playlist}
           onImportClick={() => onImportClick(index)}
