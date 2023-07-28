@@ -1,8 +1,25 @@
-# MyMusic
+# Web5 Music
 
-A fully decentralized music player for your life!
+A fully decentralized music player for your life! Access now on: https://bucolic-cendol-324631.netlify.app/
 
-TODO: add a gif of the app
+![Web5 Music Demo](demo.gif)
+
+The idea of the Web5 Music App is to allow you to connect to your favorite music apps and import playlists to your Decentralized Web Node (DWNs), so you get the control of your data. The app will orchestrate the synchronization of these playlists and store the songs in the DWN.
+
+In the above demo the user is executing this flow:
+
+- Signin with the Browser In-App agent (`Web5.connect`)
+- Allowing access to Spotify
+- Importing the playlists from Spotify, **storing them on the DWN**
+- (On the background the user adds a new song to the `popmix` playlist)
+- Upon a refresh we can see that the `popmix` was not synchronized anymore (yellow warning button)
+- Then the user synchronizes back to the Web5 DWN
+
+Right now the app is only integrated with Spotify and a one-way synchronization to the from the App to the DWN. But by adding more apps such as Youtube, iTunes etc. and implementing the synchronization from the DWN to these connected apps, the user will:
+
+1. Be truly in charge of their data; they can cancel their services and still own their playlists.
+2. Solve the annoying problem of synchronizing their music playlists across different services. It's very common for people to have multiple services subscriptions to use in different devices (TV, Car Radio, Alexa), and it's very annoying to maintain their fav'songs in sync. The DWN being the hub and automatically synchronizing their data this problem is gone!
+3. Be protected from services accounts ban and/or service shutting down.
 
 ## Local Development
 
