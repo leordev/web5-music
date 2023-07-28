@@ -1,4 +1,4 @@
-name: CI-CD Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -10,6 +10,8 @@ concurrency: ${{ github.ref }}
 
 jobs:
   build:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Check out the code
@@ -19,6 +21,25 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: 📦 Setup package manager PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: 📁 Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: 🗄️ Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: 🏭 Install packages
         run: pnpm install
@@ -39,10 +60,3 @@ jobs:
 
       - name: 🧰 Build code
         run: pnpm build
-
-      - name: 🎊 Deploy GH-Pages
-        uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist

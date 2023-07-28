@@ -27,13 +27,17 @@ To run the unit tests, simply execute:
 pnpm test
 ```
 
-## Deployment
+## Build
 
 ```sh
 pnpm lint
 pnpm build
-# TODO: deploying to netlify or something else, and add the link on the top of the readme
 ```
+
+The `/dist` is a static generated HTML React app folder, just serve it anywhere, just make sure to:
+
+- allow redirect `/*` to the `index.html`
+- edit the `VITE_SPOTIFY_REDIRECT_URI`, it should be `https://deployed-domain.com/connected-apps/spotify`
 
 ## Project Directories Structure
 
