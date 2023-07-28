@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
 import { ThemeToggler } from '@/components/misc/theme-toggler';
 
 import {
@@ -10,19 +9,20 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { AgentButton } from '../web5/agent-button';
 
 const LINKS = [
   {
-    label : 'Playlists',
-    href  : '/',
+    label: 'Playlists',
+    href: '/',
   },
   {
-    label : 'Connected Apps',
-    href  : '/connected-apps',
+    label: 'Connected Apps',
+    href: '/connected-apps',
   },
   {
-    label : 'About',
-    href  : '/about',
+    label: 'About',
+    href: '/about',
   },
 ];
 
@@ -35,9 +35,9 @@ export const Header = () => {
         <ul className="flex items-center">
           <li>
             <Link to="/" className="flex items-center">
-              <span className="sr-only">My Music Home</span>
+              <span className="sr-only">Web5 Music Home</span>
               <img src="/vite.svg" className="h-10 w-auto mr-4" />
-              <h1 className="text-3xl font-bold text-blue-600">My Music</h1>
+              <h1 className="text-3xl font-bold text-indigo-500">Web5 Music</h1>
             </Link>
           </li>
           <li className="ml-12 hidden md:block">
@@ -58,7 +58,7 @@ export const Header = () => {
             </NavigationMenu>
           </li>
           <li className="ml-auto md:block">
-            <Button>Sign in</Button>
+            <AgentButton />
           </li>
           <li className="ml-6 hidden md:block">
             <ThemeToggler />

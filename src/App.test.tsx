@@ -18,7 +18,7 @@ describe('Renders main page correctly', async () => {
     const router = createMemoryRouter(routes);
     await render(<RouterProvider router={router}></RouterProvider>);
 
-    const h1 = await screen.queryByText('My Music');
+    const h1 = await screen.queryByText('Web5 Music');
 
     expect(h1).toBeInTheDocument();
   });

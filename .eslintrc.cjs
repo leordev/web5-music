@@ -18,23 +18,23 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     // Following same web5-js rules
-    'key-spacing': [
-      'error',
-      {
-        'align': {
-          'afterColon'  : true,
-          'beforeColon' : true,
-          'on'          : 'colon'
-        }
-      }
-    ],
+    // 'key-spacing': [
+    //   'error',
+    //   {
+    //     'align': {
+    //       'afterColon'  : true,
+    //       'beforeColon' : true,
+    //       'on'          : 'colon'
+    //     }
+    //   }
+    // ],
     'quotes': [
       'error',
       'single',
       { 'allowTemplateLiterals': true }
     ],
     'semi'                              : ['error', 'always'],
-    'indent'                            : ['error', 2, { 'SwitchCase': 1 }],
+    // 'indent'                            : ['error', 2, { 'SwitchCase': 1 }],
     'no-unused-vars'                    : 'off',
     'prefer-const'                      : 'off',
     '@typescript-eslint/no-unused-vars' : [
@@ -51,8 +51,6 @@ module.exports = {
     'no-trailing-spaces'                       : ['error'],
     '@typescript-eslint/no-non-null-assertion' : 'off',
     '@typescript-eslint/ban-ts-comment'        : 'off',
-    // TODO: tests
-    // 'mocha/no-exclusive-tests'                 : 'warn'
   },
   settings: {
     react: {
