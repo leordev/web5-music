@@ -19,8 +19,10 @@ describe('Renders main page correctly', async () => {
     await render(<RouterProvider router={router}></RouterProvider>);
 
     const h1 = await screen.queryByText('Web5 Music');
-
     expect(h1).toBeInTheDocument();
+
+    const p = await screen.getByText(/menu to add new playlist/i);
+    expect(p).toBeInTheDocument();
   });
 
   it('Should navigate across pages properly', async () => {
@@ -34,7 +36,7 @@ describe('Renders main page correctly', async () => {
 
     await user.click(screen.getByText(/connected apps/i));
     expect(
-      screen.getByText(/you are on the connected apps page/i)
+      screen.getByText(/list of apps that you can connect/i)
     ).toBeInTheDocument();
   });
 

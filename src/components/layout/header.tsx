@@ -8,7 +8,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
+} from '@/components/ui';
 import { AgentButton } from '../web5/agent-button';
 
 const LINKS = [
@@ -48,7 +48,7 @@ export const Header = () => {
                     <NavigationMenuLink
                       href={link.href}
                       className={navigationMenuTriggerStyle()}
-                      active={link.href === location.pathname}
+                      active={link.href.startsWith(location.pathname)}
                     >
                       {link.label}
                     </NavigationMenuLink>

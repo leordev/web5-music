@@ -1,13 +1,13 @@
-import { Button } from '@/components/ui';
 import {
+  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  useToast,
+} from '@/components/ui';
 import { Agent } from '@/lib/web5-provider';
-import { useToast } from '@/components/ui/use-toast';
 
 import { IdCardIcon, CopyIcon } from '@radix-ui/react-icons';
 

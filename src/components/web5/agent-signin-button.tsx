@@ -1,13 +1,14 @@
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+
 import {
+  Button,
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui';
 import { useWeb5 } from '@/lib/web5-provider';
-import { useState } from 'react';
 
 export const AgentSigninButton = () => {
   return (

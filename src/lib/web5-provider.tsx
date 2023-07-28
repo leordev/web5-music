@@ -1,6 +1,6 @@
 import {
   createContext,
-  ReactNode,
+  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
@@ -33,14 +33,14 @@ export const Web5Context = createContext<Web5ContextType>(
   {} as Web5ContextType
 );
 
-export const Web5Provider = ({ children }: { children: ReactNode }) => {
+export const Web5Provider = ({ children }: PropsWithChildren) => {
   const [agent, setAgent] = useState<Agent>();
   const [error, setError] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [web5, setWeb5] = useState<Web5 | undefined>();
-  const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
 
-  // Load current session
+  // Load current stored session
   useEffect(() => {
     const loadCurrentAgent = async () => {
       const currentAgentRawString = localStorage.getItem(CURRENT_AGENT_KEY);
@@ -60,7 +60,7 @@ export const Web5Provider = ({ children }: { children: ReactNode }) => {
           throw new Error('Invalid Current Agent object');
         }
       }
-      setLoadingInitial(false);
+      setInitialLoading(false);
     };
 
     loadCurrentAgent()
@@ -69,7 +69,7 @@ export const Web5Provider = ({ children }: { children: ReactNode }) => {
         console.error(errorMessage, error);
         setError(errorMessage);
       })
-      .finally(() => setLoadingInitial(false));
+      .finally(() => setInitialLoading(false));
   }, []);
 
   const handleInAppConnection = useCallback(async (label: string) => {
@@ -123,9 +123,23 @@ export const Web5Provider = ({ children }: { children: ReactNode }) => {
 
   return (
     <Web5Context.Provider value={memoedValue}>
-      {!loadingInitial && children}
+      {!initialLoading && children}
     </Web5Context.Provider>
   );
 };
 
 export const useWeb5 = () => useContext(Web5Context);
+
+export const Web5AuthenticationGuard = ({ children }: PropsWithChildren) => {
+  const { agent } = useWeb5();
+
+  if (agent) {
+    return <>{children}</>;
+  } else {
+    return (
+      <p className="text-red-500 italic">
+        You need to sign in with your Web5 agent to be able to see this content.
+      </p>
+    );
+  }
+};

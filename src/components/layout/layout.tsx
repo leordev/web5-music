@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 import { ThemeProvider } from '@/components/theme-provider';
-import { Container } from '@/components/ui/container';
+import { Container } from '@/components/ui';
 import { Header } from './header';
 import { Footer } from './footer';
 

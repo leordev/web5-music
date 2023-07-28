@@ -6,12 +6,15 @@ import { ConnectedAppsPage } from '@/pages/connected-apps-page';
 import { ErrorPage } from '@/pages/error-page';
 import { Layout } from '@/components/layout/layout';
 import { Web5Provider } from '@/lib/web5-provider';
-import { Toaster } from './components/ui/toaster';
+import { Toaster } from './components/ui';
+import { ConnectorsProvider } from './lib/connectors/connectors-provider';
 
 const LayoutWithProviders = () => (
   <Web5Provider>
-    <Layout />
-    <Toaster />
+    <ConnectorsProvider>
+      <Layout />
+      <Toaster />
+    </ConnectorsProvider>
   </Web5Provider>
 );
 
@@ -25,7 +28,7 @@ export const routes = [
         element: <IndexPage />,
       },
       {
-        path: 'connected-apps',
+        path: 'connected-apps/:connector?',
         element: <ConnectedAppsPage />,
       },
       {
@@ -42,6 +45,4 @@ export const routes = [
 
 const router = createBrowserRouter(routes);
 
-export const App = () => (
-  <RouterProvider router={router} />
-);
+export const App = () => <RouterProvider router={router} />;
