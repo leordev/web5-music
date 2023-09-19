@@ -1,4 +1,4 @@
-import { Web5 } from '@tbd54566975/web5';
+import { Web5 } from '@web5/api';
 import { Playlist } from './interfaces';
 
 const PLAYLISTS_SCHEMA = 'http://some-schema-registry.org/playlists';
@@ -17,6 +17,7 @@ export class Web5PlaylistsStore {
         filter: {
           schema: PLAYLISTS_SCHEMA,
         },
+        dateSort: 'createdAscending' as any,
       },
     });
 

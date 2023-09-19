@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { Web5 } from '@tbd54566975/web5';
+import { Web5 } from '@web5/api';
 import { wait } from '../timers';
 
 type AgentType = 'in-app' | 'external';
