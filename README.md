@@ -1,6 +1,6 @@
 # Web5 Music
 
-A fully decentralized music player for your life! Access now on: https://bucolic-cendol-324631.netlify.app/
+A fully decentralized music player for your life! [Demo Slides](https://docs.google.com/presentation/d/1pEJlRMuqDUG2l0zl0G0qD-1jBDUFQ3KkbzG87_37z3E)
 
 ![Web5 Music Demo](demo.gif)
 
