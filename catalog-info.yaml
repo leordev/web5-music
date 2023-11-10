@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: web5-music
+  annotations:
+    github.com/project-slug: leordev/web5-music
+spec:
+  type: other
+  lifecycle: unknown
+  owner: leordev
